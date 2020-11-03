@@ -1,7 +1,7 @@
 import sqlite3
 conn = sqlite3.connect('Annuaire.db')
 cur = conn.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS LIVRES(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, nom TEXT, prenom TXT,numéro INT, adresse_email TEXT, qualité TEXT)")
+cur.execute("CREATE TABLE IF NOT EXISTS annuaire(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, nom TEXT, prenom TXT,numéro INT, adresse_email TEXT, qualité TEXT)")
 
 
 menu=int(1)
