@@ -41,12 +41,19 @@ while menu!=0 :
             modifier1=(numero,nom,prenom)
             cur.execute('UPDATE annuaire SET numero = ? WHERE nom = ? AND prenom = ?', modifier1)
             conn.commit()
-        else :
-            nom=str(input("nom du contacte: "))
-            prenom=str(input("prenom du contacte: "))
+        elif chx==2 :
+            nom=str(input("nom du contact: "))
+            prenom=str(input("prenom du contact: "))
             email=str(input("nouveau email: "))
             modifier2=(email,nom,prenom)
             cur.execute('UPDATE annuaire SET email = ? WHERE nom = ? AND prenom = ?', modifier2)
+            conn.commit()
+        else:
+            nom=str(input("nom du contact: "))
+            prenom=str(input("prenom du contact: "))
+            qualite=str(input("Nouveau type de qualite: "))
+            modifier3=(qualite,nom,prenom)
+            cur.execute('UPDATE annuaire SET qualite = ? WHERE nom = ? AND prenom = ?', modifier3)
             conn.commit()
 
     if choix==4:#rechercher
