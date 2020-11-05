@@ -1,7 +1,7 @@
 import sqlite3
 conn = sqlite3.connect('Annuaire.db')
 cur = conn.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS ANNUAIRE(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, nom TEXT, prenom TXT, numero INT, email TXT, qualite TXT)")
+cur.execute("CREATE TABLE IF NOT EXISTS ANNUAIRE(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, nom TEXT, prenom TXT, telephone INT, email TXT, qualite TXT)")
 
 
 menu=int(1)
@@ -17,29 +17,31 @@ while menu!=0 :
     if choix==1:#ajouter
         nom=str(input("Nom:"))
         prenom=str(input("Prénom: "))
-        numero=int(input("Numéro de téléphone: "))
+        telephone=int(input("Numéro de téléphone: "))
         email=str(input("Email: "))
         qualite=str(input("Qualite: "))
-        datas=(nom,prenom,numero,email,qualite)
-        cur.execute("INSERT INTO ANNUAIRE(nom, prenom, numero, email, qualite) VALUES(?, ?, ?, ?, ?)",datas)
+        datas=(nom,prenom,telephone,email,qualite)
+        cur.execute("INSERT INTO ANNUAIRE(nom, prenom, telephone, email, qualite) VALUES(?, ?, ?, ?, ?)",datas)
         conn.commit()
 
     if choix==2:#supprimer
         supprimer=str(input("nom à suprimer:",))
-        suppr=(supprimer,)
-        cur.execute('DELETE FROM annuaire WHERE nom = ?', suppr)
+        data_suppr=(supprimer,)
+        cur.execute('DELETE FROM annuaire WHERE nom = ?', data_suppr)
         conn.commit()
 
     if choix==3:#modifier
+        print("")
         print("1-modif_numéro")
         print("2-modif_email")
+        print("3-modif_qualite")
         chx=int(input("Quelle est votre choix: "))
         if chx==1 :
             nom=str(input("nom du contact: "))
             prenom=str(input("prenom du ocntact: "))
-            numero=int(input("nouveau numéro: "))
-            modifier1=(numero,nom,prenom)
-            cur.execute('UPDATE annuaire SET numero = ? WHERE nom = ? AND prenom = ?', modifier1)
+            telephone=int(input("nouveau numéro: "))
+            modifier1=(telephone,nom,prenom)
+            cur.execute('UPDATE annuaire SET telephone = ? WHERE nom = ? AND prenom = ?', modifier1)
             conn.commit()
         elif chx==2 :
             nom=str(input("nom du contact: "))
@@ -48,7 +50,7 @@ while menu!=0 :
             modifier2=(email,nom,prenom)
             cur.execute('UPDATE annuaire SET email = ? WHERE nom = ? AND prenom = ?', modifier2)
             conn.commit()
-        else:
+        elif chx==3 :
             nom=str(input("nom du contact: "))
             prenom=str(input("prenom du contact: "))
             qualite=str(input("Nouveau type de qualite: "))
@@ -57,8 +59,13 @@ while menu!=0 :
             conn.commit()
 
     if choix==4:#rechercher
-        cur.execute("select * from annuaire")
+        champs=str(input("Insérer parmis les champs suivant selon la donnée que vous allez taper par la suite, merci de bien reproduire la syntaxe exacte donnée : nom , prenom , email , qualite : "))
+        valeur=str(input("Rentrer ici la donnée que vous connaissez affilié au champ que vous avez rentré précédemment : "))
+
+        cur.execute("select nom, prenom, telephone, email, qualite from annuaire where {}='{}'".format(champs, valeur))
+
         print(cur.fetchall())
+
 
     if choix==5:#fin du programme
         menu=0
